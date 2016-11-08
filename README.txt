@@ -8,15 +8,22 @@ Current features
 	Camera tracking player
 	Player damage and invincibility frames
 	One enemy type: Scarecrow
+	Champion enemy variants
+	Moving from floor to floor
+	Randomly generate floor from certain prefabs
 
 Upcoming features
 	Sorting layer script for drawing entities behind entities lower on the screen
-	Moving from floor to floor
-	Randomly generate floor from certain prefabs
 	Screen fade between floors
 	Enemy type: Mage
 	Enemy type: Melee
+	Reset run
 
 Future features
 	Bosses
 	Cutscenes
+	Money drops and Shops
+
+Considerations
+	Knockback enemies when damaged
+	Hearts vibrating or flashing when low health

@@ -93,13 +93,21 @@ public class ScarecrowScript : MonoBehaviour {
 
         if(health == 0)
         {
-            Destroy(transform.gameObject);
+            StartCoroutine(Death());
         }
+    }
+
+    private IEnumerator Death()
+    {
+        yield return new WaitForSeconds(0.25f);
+        GameObject gameManager = GameObject.Find("GameManager");
+        gameManager.GetComponent<GameScript>().EnemyKilled();
+        Destroy(transform.gameObject);
     }
 
     private IEnumerator InvincibilityFrames()
     {
-        Color transparent = new Color(1f, 0f, 0f, 1f);
+        Color hurt = new Color(1f, 0f, 0f, 1f);
         Color original = new Color(1f, 1f, 1f, 1f);
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
 
@@ -107,7 +115,7 @@ public class ScarecrowScript : MonoBehaviour {
         int x = 0;
         while (x < (invulnPeriod / 0.1f))
         {
-            renderer.color = transparent;
+            renderer.color = hurt;
             yield return new WaitForSeconds(0.05f);
             renderer.color = original;
             yield return new WaitForSeconds(0.05f);

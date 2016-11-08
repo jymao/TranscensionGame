@@ -121,7 +121,7 @@ public class PlayerScript : MonoBehaviour {
         //Debug.Log("input_y: " + input_y);
 
         //spawn attack hitbox
-        float offset = 0.75f;
+        float offset = 1.25f;
         GameObject slice;
 
         //default is up
@@ -159,7 +159,10 @@ public class PlayerScript : MonoBehaviour {
         animator.SetBool("isAttacking", false);
 
         yield return new WaitForSeconds(0.2f);
-        canMove = true;
+        if (!isDead)
+        {
+            canMove = true;
+        }
     }
 
     public void TakeDamage(int damage)
@@ -200,7 +203,7 @@ public class PlayerScript : MonoBehaviour {
 
     private IEnumerator InvincibilityFrames()
     {
-        Color transparent = new Color(1f, 0f, 0f, 1f);
+        Color hurt = new Color(1f, 0f, 0f, 1f);
         Color original = new Color(1f, 1f, 1f, 1f);
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
 
@@ -208,13 +211,22 @@ public class PlayerScript : MonoBehaviour {
         int x = 0;
         while(x < (invulnPeriod / 0.1f))
         {
-            renderer.color = transparent;
+            renderer.color = hurt;
             yield return new WaitForSeconds(0.05f);
             renderer.color = original;
             yield return new WaitForSeconds(0.05f);
             x++;
         }
         
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "Warp")
+        {
+            GameObject gameManager = GameObject.Find("GameManager");
+            gameManager.GetComponent<GameScript>().NextFloor();
+        }
     }
 
     void OnTriggerStay2D(Collider2D other)

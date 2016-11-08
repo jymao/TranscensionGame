@@ -11,13 +11,13 @@ Current features
 	Champion enemy variants
 	Moving from floor to floor
 	Randomly generate floor from certain prefabs
-
-Upcoming features
 	Sorting layer script for drawing entities behind entities lower on the screen
-	Screen fade between floors
 	Enemy type: Mage
+	Retry run when Game Over
+
+Upcoming features	
+	Screen fade between floors
 	Enemy type: Melee
-	Reset run
 
 Future features
 	Bosses

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameScript : MonoBehaviour {
 
@@ -16,6 +17,8 @@ public class GameScript : MonoBehaviour {
     //enemies to spawn
     public GameObject scarecrow;
     public GameObject championScarecrow;
+    public GameObject mage;
+    public GameObject championMage;
 
     private int floor = 1;
     private int enemyCount = 0;
@@ -28,6 +31,8 @@ public class GameScript : MonoBehaviour {
     private int maxEnemyLevel = 2;
     private Bounds mapBounds;
 
+    private PlayerScript playerScript;
+
 	// Use this for initialization
 	void Start () {
         //create portal rock and portal
@@ -36,17 +41,29 @@ public class GameScript : MonoBehaviour {
         mapBounds = map.GetComponent<Renderer>().bounds;
 
         playerSpawn = new Vector3(0, -4, 0);
+        playerScript = player.GetComponent<PlayerScript>();
 
         GenerateFloor();
+
+        GameObject.Find("Canvas").transform.GetChild(0).gameObject.SetActive(false);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    
+        if(playerScript.GetIsDead())
+        {
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                Reset();
+            }
+        }
 	}
 
     private void GenerateFloor()
     {
+        GameObject.Find("Canvas").transform.GetChild(1).gameObject.GetComponent<Text>().text = "Floor " + floor;
+
         //block portal and disable teleport
         portalRock.SetActive(true);
         portal.SetActive(false);
@@ -93,10 +110,10 @@ public class GameScript : MonoBehaviour {
             switch(enemyLevel)
             {
                 case 1:
-                    Instantiate(scarecrow, spawnLoc, Quaternion.identity);
+                    SpawnEnemyLevel1(spawnLoc);
                     break;
                 case 2:
-                    Instantiate(championScarecrow, spawnLoc, Quaternion.identity);
+                    SpawnEnemyLevel2(spawnLoc);
                     break;
             }
 
@@ -143,6 +160,14 @@ public class GameScript : MonoBehaviour {
             Destroy(enemy);
         }
 
+        //remove existing enemy attacks
+        GameObject[] enemyAttacks = GameObject.FindGameObjectsWithTag("EnemyAttack");
+
+        foreach (GameObject attack in enemyAttacks)
+        {
+            Destroy(attack);
+        }
+
     }
 
     public void EnemyKilled()
@@ -161,5 +186,44 @@ public class GameScript : MonoBehaviour {
         floor++;
         player.transform.position = playerSpawn;
         GenerateFloor();
+    }
+
+    private void SpawnEnemyLevel1(Vector3 spawnLoc)
+    {
+        int type = Random.Range(1, 3);
+
+        switch(type)
+        {
+            case 1:
+                Instantiate(scarecrow, spawnLoc, Quaternion.identity);
+                break;
+            case 2:
+                Instantiate(mage, spawnLoc, Quaternion.identity);
+                break;
+        }
+    }
+
+    private void SpawnEnemyLevel2(Vector3 spawnLoc)
+    {
+        int type = Random.Range(1, 3);
+
+        switch (type)
+        {
+            case 1:
+                Instantiate(championScarecrow, spawnLoc, Quaternion.identity);
+                break;
+            case 2:
+                Instantiate(championMage, spawnLoc, Quaternion.identity);
+                break;
+        }
+    }
+
+    private void Reset()
+    {
+        floor = 0;
+        enemyCount = 0;
+        NextFloor();
+        playerScript.Reset();
+        GameObject.Find("Canvas").transform.GetChild(0).gameObject.SetActive(false);
     }
 }

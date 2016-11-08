@@ -12,7 +12,7 @@ public class PlayerScript : MonoBehaviour {
     public float invulnPeriod;
 
     //for healthbar
-    public Camera camera;
+    public Camera cam;
     public GameObject healthBar;
     public float healthBarSpeed;
     public GameObject heart;
@@ -187,6 +187,8 @@ public class PlayerScript : MonoBehaviour {
         canMove = false;
         isDead = true;
         animator.SetBool("isDead", true);
+
+        GameObject.Find("Canvas").transform.GetChild(0).gameObject.SetActive(true);
     }
 
     public void Pause()
@@ -250,14 +252,14 @@ public class PlayerScript : MonoBehaviour {
     //update health bar position so it follows the camera
     private void UpdateHealthBarPos()
     {
-        float camHeight = 2f * camera.orthographicSize;
-        float camWidth = camHeight * camera.aspect;
+        float camHeight = 2f * cam.orthographicSize;
+        float camWidth = camHeight * cam.aspect;
 
         float offsetX = 0.3f;
         float offsetY = -0.3f;
         float offsetZ = 10f;
 
-        Vector3 target = camera.transform.position + new Vector3(-camWidth / 2f, camHeight / 2f, 0) + new Vector3(offsetX, offsetY, offsetZ);
+        Vector3 target = cam.transform.position + new Vector3(-camWidth / 2f, camHeight / 2f, 0) + new Vector3(offsetX, offsetY, offsetZ);
 
         healthBar.transform.position = Vector3.SmoothDamp(healthBar.transform.position, target, ref healthBarVelocity, healthBarSpeed);
     }
@@ -312,5 +314,21 @@ public class PlayerScript : MonoBehaviour {
                 hearts[i].SetActive(false);
             }
         }
+    }
+
+    public void Reset()
+    {
+        animator.SetBool("isDead", false);
+        health = maxHealth;
+        UpdateHealthBar();
+        canMove = true;
+        isDead = false;
+
+        animator.SetBool("isReset", true);
+    }
+
+    public bool GetIsDead()
+    {
+        return isDead;
     }
 }

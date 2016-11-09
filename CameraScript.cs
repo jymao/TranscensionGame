@@ -20,13 +20,14 @@ public class CameraScript : MonoBehaviour {
 
         cam = GetComponent<Camera>();
         mapBounds = map.GetComponent<Renderer>().bounds;
+        HandleCameraMovement(mapBounds);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         //keep pixel art size consistent across different resolutions
-        cam.orthographicSize = (Screen.height / 100f) / 1.75f;
+        //cam.orthographicSize = (Screen.height / 100f) / 1.5f;
 
         //track target position but stay within bounds of map
         if (target)

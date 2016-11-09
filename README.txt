@@ -1,5 +1,7 @@
 Transcension
 
+Playable build at jymao.github.io/TranscensionGame
+
 Repository for Unity game scripts
 ---------------------------------
 Current features

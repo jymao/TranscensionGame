@@ -7,8 +7,49 @@
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <script src="TemplateData/UnityProgress.js"></script>
+    <style>
+      #summary {
+        background-color: rgb(50, 50, 50);
+        position: absolute;
+        top: 44px;
+        //bottom: 87px;
+        left: 20px;
+        //width: 248px;
+        width: 200px;
+        height: 600px;
+        border: 2px solid rgb(50, 50, 50);
+        border-radius: 8px;
+      }
+
+      #summary h2, #summary h3, #summary p {
+        color: rgb(240,240,240);
+        text-align: center;
+        font-family: 'Lucida Grande', 'Trebuchet MS';
+      }
+
+      @media only screen and (max-width: 1400px) {
+        #summary {
+          display: none;
+        }
+      }
+    </style>
   </head>
   <body class="template">
+    <!-- Summary -->
+    <div id="summary">
+      <h2>Transcension</h2>
+      <p>
+        A 2-D hack-and-slash game in which the player defeats all enemies to progress through increasingly difficult floors.
+      </p>
+      <br/>
+      <h3>Controls</h3>
+      <p>
+        Movement: WASD or arrow keys.
+      </p>
+      <p>
+        Attack: X
+      </p>
+    </div>
     <div class="template-wrap clear">
       <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
       <br>
